@@ -32,17 +32,42 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       debugLogDiagnostics: true,
       refreshListenable: appStateNotifier,
       navigatorKey: appNavigatorKey,
-      errorBuilder: (context, state) => const HomePageWidget(),
+      errorBuilder: (context, state) => appStateNotifier.showSplashImage
+          ? Builder(
+              builder: (context) => Container(
+                color: Colors.transparent,
+                child: Image.asset(
+                  'assets/images/Kremowa_i_Szara_Prosta_Minimalistyczna_Podroz_YouTube_Ikona.png',
+                  fit: BoxFit.cover,
+                ),
+              ),
+            )
+          : const TaskListWidget(),
       routes: [
         FFRoute(
           name: '_initialize',
           path: '/',
-          builder: (context, _) => const HomePageWidget(),
+          builder: (context, _) => appStateNotifier.showSplashImage
+              ? Builder(
+                  builder: (context) => Container(
+                    color: Colors.transparent,
+                    child: Image.asset(
+                      'assets/images/Kremowa_i_Szara_Prosta_Minimalistyczna_Podroz_YouTube_Ikona.png',
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                )
+              : const TaskListWidget(),
         ),
         FFRoute(
-          name: 'HomePage',
-          path: '/homePage',
-          builder: (context, params) => const HomePageWidget(),
+          name: 'TaskList',
+          path: '/taskList',
+          builder: (context, params) => const TaskListWidget(),
+        ),
+        FFRoute(
+          name: 'TaskForm',
+          path: '/taskForm',
+          builder: (context, params) => const TaskFormWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
@@ -114,6 +139,7 @@ class FFParameters {
     String paramName,
     ParamType type, {
     bool isList = false,
+    List<String>? collectionNamePath,
   }) {
     if (futureParamValues.containsKey(paramName)) {
       return futureParamValues[paramName];
@@ -131,6 +157,7 @@ class FFParameters {
       param,
       type,
       isList,
+      collectionNamePath: collectionNamePath,
     );
   }
 }

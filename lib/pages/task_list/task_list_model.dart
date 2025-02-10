@@ -1,8 +1,8 @@
 import '/flutter_flow/flutter_flow_util.dart';
-import 'home_page_widget.dart' show HomePageWidget;
+import 'task_list_widget.dart' show TaskListWidget;
 import 'package:flutter/material.dart';
 
-class HomePageModel extends FlutterFlowModel<HomePageWidget> {
+class TaskListModel extends FlutterFlowModel<TaskListWidget> {
   @override
   void initState(BuildContext context) {}
 
