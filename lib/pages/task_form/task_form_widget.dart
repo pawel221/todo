@@ -2,6 +2,7 @@ import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'task_form_model.dart';
 export 'task_form_model.dart';
@@ -79,7 +80,8 @@ class _TaskFormWidgetState extends State<TaskFormWidget> {
                       child: TextFormField(
                         controller: _model.textController,
                         focusNode: _model.textFieldFocusNode,
-                        autofocus: false,
+                        autofocus: true,
+                        textInputAction: TextInputAction.done,
                         obscureText: false,
                         decoration: InputDecoration(
                           isDense: true,
@@ -139,11 +141,15 @@ class _TaskFormWidgetState extends State<TaskFormWidget> {
                 ),
                 FFButtonWidget(
                   onPressed: () async {
-                    await TasksRecord.collection
-                        .doc()
-                        .set(createTasksRecordData(
-                          name: _model.textController.text,
-                        ));
+                    unawaited(
+                      () async {
+                        await TasksRecord.collection
+                            .doc()
+                            .set(createTasksRecordData(
+                              name: _model.textController.text,
+                            ));
+                      }(),
+                    );
                     Navigator.pop(context);
                   },
                   text: 'Save',
